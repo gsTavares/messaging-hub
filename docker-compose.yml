@@ -1,0 +1,37 @@
+services:
+  messaging-hub-postgres:
+    image: postgres:15.3-alpine
+    container_name: messaging-hub-postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postdba
+      - POSTGRES_USER=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  messaging-hub-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: messaging-hub-pgadmin
+    restart: always
+    depends_on:
+      - messaging-hub-postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=postgres@localhost.com
+      - PGADMIN_DEFAULT_PASSWORD=postdba
+    ports:
+      - 8080:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+  messaging-hub-be-authentication:
+    build: ./messaging-hub-be-authentication
+    container_name: messaging-hub-be-authentication
+    depends_on:
+      - messaging-hub-postgres
+    ports:
+      - 8081:8081
+
+networks:
+  default:
+    name: messaging-hub-network
+    external: true
