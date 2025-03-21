@@ -1,0 +1,45 @@
+package com.messaginghub.be.authentication.user.model;
+
+import com.messaginghub.be.authentication.user.model.enumerated.Role;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+public class User {
+   
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column
+    private String id;
+
+    @Column(unique = true)
+    private String username;
+    
+    @Column
+    private String password;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+    
+}
