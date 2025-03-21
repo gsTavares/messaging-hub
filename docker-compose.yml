@@ -26,6 +26,11 @@ services:
   messaging-hub-be-authentication:
     build: ./messaging-hub-be-authentication
     container_name: messaging-hub-be-authentication
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://messaging-hub-postgres:5432/messaginghub
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postdba
     depends_on:
       - messaging-hub-postgres
     ports:

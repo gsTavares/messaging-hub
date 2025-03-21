@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UserRequestDto(
-        @NotNull @NotBlank String username,
-        @NotNull @NotBlank String password) {
+        @NotNull(message = "Username is required") @NotBlank(message = "Username can't be empty") String username,
+        @NotNull(message = "Password is required") @NotBlank(message = "Password can't be empty") String password) {
 
 }

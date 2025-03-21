@@ -26,13 +26,13 @@ public class User {
     @Column
     private String id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 

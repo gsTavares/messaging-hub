@@ -1,6 +1,7 @@
 package com.messaginghub.be.authentication.user.service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.messaginghub.be.authentication.user.details.UserDetailsImpl;
 import com.messaginghub.be.authentication.user.dto.request.UserRequestDto;
+import com.messaginghub.be.authentication.user.dto.response.UserListResponseDto;
 import com.messaginghub.be.authentication.user.dto.response.UserLoginResponseDto;
 import com.messaginghub.be.authentication.user.dto.response.UserRegisterResponseDto;
 import com.messaginghub.be.authentication.user.model.User;
@@ -62,6 +64,13 @@ public class UserService {
         User user = new User(dto.username(), passwordEncoder.encode(dto.password()), Role.EMPLOYEE);
         userRepository.saveAndFlush(user);
         return new UserRegisterResponseDto("User created!");
+    }
+
+    public List<UserListResponseDto> getAllUsers() {
+        return userRepository.findAll()
+            .stream()
+            .map(UserListResponseDto::new)
+            .toList();
     }
 
 }
