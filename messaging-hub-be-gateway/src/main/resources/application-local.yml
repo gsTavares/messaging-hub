@@ -1,0 +1,10 @@
+
+spring:
+    cloud:
+        gateway:
+            mvc:
+                routes:
+                    - id: be-authentication
+                      uri: http://localhost:8081
+                      predicates:
+                      - Path=/messaging-hub/auth/v1/**

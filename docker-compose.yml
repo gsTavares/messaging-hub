@@ -35,6 +35,14 @@ services:
       - messaging-hub-postgres
     ports:
       - 8081:8081
+  messaging-hub-be-gateway:
+    build: ./messaging-hub-be-gateway
+    container_name: messaging-hub-be-gateway
+    restart: always
+    depends_on:
+      - messaging-hub-be-authentication
+    ports:
+      - 8082:8082
 
 networks:
   default:
