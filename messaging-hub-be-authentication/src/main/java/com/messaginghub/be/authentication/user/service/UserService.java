@@ -19,8 +19,8 @@ import com.messaginghub.be.authentication.user.dto.request.UserRequestDto;
 import com.messaginghub.be.authentication.user.dto.response.UserListResponseDto;
 import com.messaginghub.be.authentication.user.dto.response.UserLoginResponseDto;
 import com.messaginghub.be.authentication.user.dto.response.UserRegisterResponseDto;
-import com.messaginghub.be.authentication.user.model.User;
-import com.messaginghub.be.authentication.user.model.enumerated.Role;
+import com.messaginghub.be.core.model.User;
+import com.messaginghub.be.core.model.enumerated.Role;
 import com.messaginghub.be.authentication.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,10 @@ public class UserService {
     }
 
     public UserRegisterResponseDto register(UserRequestDto dto) {
-        User user = new User(dto.username(), passwordEncoder.encode(dto.password()), Role.EMPLOYEE);
+        User user = User.builder()
+            .username(dto.username())
+            .password(passwordEncoder.encode(dto.password()))
+            .role(Role.EMPLOYEE).build();
         userRepository.saveAndFlush(user);
         return new UserRegisterResponseDto("User created!");
     }

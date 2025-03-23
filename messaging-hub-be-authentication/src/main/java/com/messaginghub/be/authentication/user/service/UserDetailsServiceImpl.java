@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.messaginghub.be.authentication.user.details.UserDetailsImpl;
-import com.messaginghub.be.authentication.user.model.User;
+import com.messaginghub.be.core.model.User;
 import com.messaginghub.be.authentication.user.repository.UserRepository;
 
 public class UserDetailsServiceImpl implements UserDetailsService {

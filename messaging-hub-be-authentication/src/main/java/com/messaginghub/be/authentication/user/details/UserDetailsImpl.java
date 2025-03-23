@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.messaginghub.be.authentication.user.model.User;
+import com.messaginghub.be.core.model.User;
 
 public class UserDetailsImpl implements UserDetails {
 

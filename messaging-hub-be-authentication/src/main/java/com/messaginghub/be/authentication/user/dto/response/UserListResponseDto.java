@@ -1,7 +1,7 @@
 package com.messaginghub.be.authentication.user.dto.response;
 
-import com.messaginghub.be.authentication.user.model.User;
-import com.messaginghub.be.authentication.user.model.enumerated.Role;
+import com.messaginghub.be.core.model.User;
+import com.messaginghub.be.core.model.enumerated.Role;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
