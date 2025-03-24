@@ -1,0 +1,3 @@
+[submodule "messaging-hub-be-core"]
+	path = messaging-hub-be-core
+	url = https://github.com/gsTavares/messaging-hub-be-core.git
