@@ -43,6 +43,18 @@ services:
       - messaging-hub-be-authentication
     ports:
       - 8082:8082
+  messaging-hub-be-messaging:
+    build: ./messaging-hub-be-messaging
+    container_name: messaging-hub-be-messaging
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://messaging-hub-postgres:5432/messaginghub
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postdba
+    depends_on:
+      - messaging-hub-postgres
+    ports:
+      - 8083:8083
 
 networks:
   default:
