@@ -1,4 +1,10 @@
 FROM maven:3.8-openjdk-17 AS build
+
+RUN git clone https://github.com/gsTavares/messaging-hub-be-core.git && \
+    cd messaging-hub-be-core && \
+    mvn clean install -DskipTests && \
+    cd ..
+
 COPY . .
 RUN mvn clean package -DskipTests
 
