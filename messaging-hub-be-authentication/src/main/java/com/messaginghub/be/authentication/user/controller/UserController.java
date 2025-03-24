@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.messaginghub.be.authentication.user.dto.request.UserRequestDto;
 import com.messaginghub.be.authentication.user.service.UserService;
-import com.messaginghub.be.authentication.util.ApiResponse;
+import com.messaginghub.be.core.util.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
