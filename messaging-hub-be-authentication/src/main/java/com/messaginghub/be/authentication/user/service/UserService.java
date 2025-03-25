@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,9 @@ public class UserService {
     private final JwtEncoder jwtEncoder;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Value("${jwt.issuer}")
+    private String jwtIssuer;
+
     public UserLoginResponseDto login(UserRequestDto dto) {
         Authentication request = UsernamePasswordAuthenticationToken.unauthenticated(dto.username(), dto.password());
         Authentication response = authenticationManager.authenticate(request);
@@ -47,12 +51,13 @@ public class UserService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")
+                .issuer(jwtIssuer)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(response.getName())
                 .claim("scope", scope)
                 .claim("principal", details.getUsername())
+                .claim("id", details.getId())
                 .build();
 
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
