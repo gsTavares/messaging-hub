@@ -1,6 +1,7 @@
 package com.messaginghub.be.messaging.messages.controller.exception;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +36,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidDataOperationException.class)
     protected ResponseEntity<Object> handleInvalidDataOperationException(InvalidDataOperationException ex, WebRequest request) {
         ApiResponse<String> response = new ApiResponse<String>(ex.getMessage(), "Error type: invalid data operation");
+        return handleExceptionInternal(ex, response, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    protected ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex, WebRequest request) {
+        ApiResponse<String> response = new ApiResponse<String>(ex.getMessage(), "Error type: no such element");
         return handleExceptionInternal(ex, response, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 

@@ -22,9 +22,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void create(CreateMessageRequest dto) {
-        String senderId = ""; // retrieve logged user from session
-
+    public void create(CreateMessageRequest dto, String senderId) {
         User sender = User.builder()
                 .id(senderId)
                 .build();
@@ -42,12 +40,13 @@ public class MessageService {
         messageRepository.saveAndFlush(message);
     }
 
-    public void delete(String messageId) {
-        messageRepository.deleteById(messageId);
+    public void delete(String messageId, String messageOwnerId) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new NoSuchElementException("Message not found"));
+        messageRepository.delete(message);
     }
 
-    public void edit(String messageId, EditMessageRequest dto) {
-        String messageOwnerId = ""; // retrieve logged user from session
+    public void edit(String messageId, EditMessageRequest dto, String messageOwnerId) {
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new NoSuchElementException("Message not found"));
         if (!message.getReceiver().getId().equals(messageOwnerId))
@@ -58,8 +57,7 @@ public class MessageService {
         messageRepository.saveAndFlush(message);
     }
 
-    public List<MessageListResponse> findByReceiver() {
-        String receiverId = ""; // retrieve logged user from session
+    public List<MessageListResponse> findByReceiver(String receiverId) {
         return messageRepository.findByReceiverIdOrderByCreatedAtDesc(receiverId)
                 .stream()
                 .map(MessageListResponse::new)

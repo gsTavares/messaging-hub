@@ -14,6 +14,7 @@ public class MessageListResponse {
     private String id;
     private String content;
     private String senderId;
+    private String senderUsername;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -23,6 +24,7 @@ public class MessageListResponse {
         this.senderId = message.getSender().getId();
         this.createdAt = message.getCreatedAt();
         this.updatedAt = message.getUpdatedAt();
+        this.senderUsername = message.getSender().getUsername();
     }
 
 }
