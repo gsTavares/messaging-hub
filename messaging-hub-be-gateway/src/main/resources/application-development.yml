@@ -8,7 +8,6 @@ spring:
                       uri: http://messaging-hub-be-authentication:8081
                       predicates:
                       - Path=/messaging-hub/auth/v1/**
-                    - id: be-messaging
-                      uri: http://messaging-hub-be-messaging:8081
-                      predicates:
-                      - Path=/messaging-hub/messaging/v1/**
+
+uris:
+    be-messaging: http://messaging-hub-be-messaging:8083

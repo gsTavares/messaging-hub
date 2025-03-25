@@ -6,3 +6,7 @@ spring:
 
 server:
   port: 8082
+
+jwt:
+    public: 
+        key: classpath:app.pub
