@@ -12,7 +12,7 @@ public class UserTopicRegistration {
     NewTopic userTopic() {
         return TopicBuilder.name("userTopic")
             .partitions(10)
-            .replicas(3)
+            .replicas(1)
             .build();
     }
 

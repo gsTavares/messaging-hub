@@ -13,7 +13,7 @@ import com.messaginghub.be.producer.user.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/v1/user")
+@RequestMapping(value = "/v1/auth")
 public class UserController {
     
     @Autowired
