@@ -2,7 +2,7 @@ spring:
     application:
         name: gateway
     profiles:
-        active: local
+        active: development
 
 server:
   port: 8082
