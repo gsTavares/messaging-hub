@@ -8,5 +8,9 @@ spring:
                       uri: http://localhost:8081
                       predicates:
                       - Path=/messaging-hub/auth/v1/**
+                    - id: be-producer
+                      uri: http://localhost:8086
+                      predicates:
+                      - Path=messaging-hub/producer/v1/**
 uris:
     be-messaging: http://localhost:8083

@@ -22,7 +22,7 @@ public class JwtSecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/messaging-hub/auth/v1/**").permitAll().anyRequest().authenticated())
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/messaging-hub/auth/v1/**", "/messaging-hub/producer/v1/auth/**").permitAll().anyRequest().authenticated())
                 .csrf((csrf) -> csrf.disable())
                 .oauth2ResourceServer((oauth2ResourceServer) -> oauth2ResourceServer.jwt(Customizer.withDefaults()))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
