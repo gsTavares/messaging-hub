@@ -10,6 +10,7 @@ services:
       - 5432:5432
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+
   messaging-hub-pgadmin:
     image: dpage/pgadmin4:latest
     container_name: messaging-hub-pgadmin
@@ -23,6 +24,7 @@ services:
       - 8080:80
     volumes:
       - ./data/pgadmin:/var/lib/pgadmin
+
   messaging-hub-be-authentication:
     build: ./messaging-hub-be-authentication
     container_name: messaging-hub-be-authentication
@@ -33,8 +35,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postdba
     depends_on:
       - messaging-hub-postgres
-    ports:
-      - 8081:8081
+
   messaging-hub-be-gateway:
     build: ./messaging-hub-be-gateway
     container_name: messaging-hub-be-gateway
@@ -53,9 +54,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postdba
     depends_on:
       - messaging-hub-postgres
-    ports:
-      - 8083:8083
-  
+    
   messaging-hub-be-zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: messaging-hub-be-zookeeper
@@ -69,14 +68,37 @@ services:
     depends_on:
       - messaging-hub-be-zookeeper
     ports:
-      - 9092:9092
+      - "9092:9092"
+      - "9093:9093"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: messaging-hub-be-zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://messaging-hub-be-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://messaging-hub-be-kafka:9092,PLAINTEXT_HOST://host.docker.internal:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  messaging-hub-be-producer:
+    build: ./messaging-hub-be-producer
+    container_name: messaging-hub-be-producer
+    environment:
+      - KAFKA_URL=messaging-hub-be-kafka:9092
+    restart: always
+    depends_on:
+      - messaging-hub-be-kafka
+
+  messaging-hub-be-consumer:
+    build: ./messaging-hub-be-consumer
+    container_name: messaging-hub-be-consumer
+    environment:
+      - KAFKA_URL=messaging-hub-be-kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://messaging-hub-postgres:5432/messaginghub
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postdba
+    restart: always
+    depends_on:
+      - messaging-hub-be-kafka
 
 networks:
   default:
